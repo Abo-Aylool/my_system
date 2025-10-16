@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة HMAS الطلابية</title>
+    
+    <!-- كود معاينة الرابط -->
+    <meta property="og:title" content="بوابة HMAS الطلابية" />
+    <meta property="og:description" content="بوابتك للدخول إلى عالم HMAS الرقمي. تابع أخبارك وأقسامك بسهولة." />
+    <meta property="og:image" content="https://i.ibb.co/XkCjsrC9/Screenshot-com-android-chrome.png" />
+    <meta property="og:url" content="https://your-site.netlify.app" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css"/>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+        
+        :root {
+            --bg-gradient-start: #1a1a2e; --bg-gradient-end: #16213e;
+            --purple-glow: #e94560; --purple-light: #c06c84;
+            --glass-bg: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f0f0; --text-secondary: #a9aeb9;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --theme-light-bg: #f0f2f5; --theme-light-text: #1c1e21;
+        }
+        .light-theme {
+            --bg-gradient-start: #eef2f3; --bg-gradient-end: #8e9eab;
+            --purple-glow: #3a7bd5; --purple-light: #3a60d5;
+            --glass-bg: rgba(255, 255, 255, 0.4); --glass-border: rgba(255, 255, 255, 0.3);
+            --text-primary: #1c1e21; --text-secondary: #555;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif; color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            transition: background 0.5s, color 0.5s;
+        }
+
+        .glass-pane {
+            width: 95%; max-width: 800px; height: 90vh;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; box-shadow: 0 15px 40px var(--shadow-color);
+            padding: 20px; display: flex; flex-direction: column; position: relative;
+            overflow: hidden;
+        }
+        
+        .screen {
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+            padding: 20px; opacity: 1; display: flex; flex-direction: column;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .screen.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
+        
+        #login-screen, #register-screen { align-items: center; justify-content: center; }
+        .form-container { width: 100%; max-width: 380px; text-align: center; }
+        .title { font-size: 2.8rem; font-weight: 800; text-shadow: 0 0 15px var(--purple-glow), 0 0 5px var(--purple-light); }
+        .subtitle { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 40px; }
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-group input { width: 100%; padding: 15px 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-primary); font-size: 1rem; transition: all 0.3s; }
+        .input-group input:focus { outline: none; border-color: var(--purple-light); box-shadow: 0 0 10px var(--purple-light); }
+        .btn-3d { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(145deg, var(--purple-light), var(--purple-glow)); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3); transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-3d:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5); }
+        .bottom-link { margin-top: 25px; color: var(--text-secondary); }
+        .bottom-link a { color: var(--text-primary); font-weight: 700; text-decoration: none; }
+
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+        .user-profile { display: flex; align-items: center; gap: 15px; }
+        .profile-pic { width: 45px; height: 45px; border-radius: 50%; background-color: var(--purple-glow); display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: 700; color: #fff; }
+        .user-details h2 { margin: 0; font-size: 1.4rem; }
+        .user-details p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+
+        #ad-container-main { margin: 20px 0; padding: 15px; border-radius: 15px; background: linear-gradient(135deg, #00b09b, #96c93d); position: relative; box-shadow: 0 10px 30px rgba(0, 176, 155, 0.3); text-align: center; overflow: hidden; }
+        #ad-container-main::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, rgba(255,255,255,0.2), transparent 30%); animation: rotate 5s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        .news-ticker { width: 100%; background: rgba(0,0,0,0.1); padding: 10px 0; overflow: hidden; white-space: nowrap; margin: 20px 0; border-radius: 8px; flex-shrink: 0; }
+        #news-ticker-content { display: inline-block; padding-left: 100%; animation: ticker-scroll 60s linear infinite; }
+        #news-ticker-content span { margin: 0 25px; color: var(--text-secondary); }
+        @keyframes ticker-scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 15px 5px; }
+        #sections-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .galaxy-card { position: relative; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 25px; text-align: center; cursor: pointer; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .galaxy-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px var(--shadow-color); }
+        .galaxy-card i { font-size: 2.5rem; color: var(--purple-light); margin-bottom: 15px; }
+        .galaxy-card h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .galaxy-card p { font-size: 0.9rem; color: var(--text-secondary); }
+        .card-new-badge { position: absolute; top: 10px; left: 10px; background-color: var(--purple-glow); color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; font-weight: 700; }
+
+        .dashboard-footer { padding-top: 15px; border-top: 1px solid var(--glass-border); text-align: center; flex-shrink: 0; }
+        .settings-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1rem; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .modal-overlay.visible { opacity: 1; pointer-events: all; }
+        .modal-window { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; width: 90%; max-width: 450px; padding: 25px; transform: scale(0.9); transition: transform 0.3s; }
+        .modal-overlay.visible .modal-window { transform: scale(1); }
+        .modal-header { font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
+        .modal-footer { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-cancel { background-color: rgba(0,0,0,0.2); color: var(--text-secondary); }
+
+        .shepherd-element { background: linear-gradient(145deg, #00b09b, #3a8b7e); border-radius: 15px; box-shadow: 0 15px 40px rgba(0, 176, 155, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); filter: drop-shadow(0 0 20px rgba(0, 176, 155, 0.5)); max-width: 400px; }
+        .shepherd-header { padding: 15px 20px; }
+        .shepherd-title { color: #fff; font-weight: 800; font-size: 1.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .shepherd-cancel-icon { filter: brightness(3); }
+        .shepherd-text { color: #e0f2f1; padding: 0 20px 20px; line-height: 1.8; font-size: 1rem; }
+        .shepherd-text p { margin: 0; }
+        .shepherd-button { background: #fff; color: #00b09b; border-radius: 8px; padding: 10px 20px; font-weight: bold; margin-right: 10px; text-shadow: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .shepherd-button.shepherd-button-secondary { background: transparent; border: 2px solid #fff; color: #fff; }
+        .shepherd-arrow, .shepherd-arrow:before { content: ''; position: absolute; width: 20px; height: 20px; background: #00b09b; transform: rotate(45deg); }
+        .shepherd-element[data-popper-placement^="bottom"] .shepherd-arrow { top: -10px; }
+        .shepherd-element[data-popper-placement^="top"] .shepherd-arrow { bottom: -10px; }
+    </style>
+</head>
+<body>
+    <div class="glass-pane">
+        <div id="login-screen" class="screen">
+            <div class="form-container">
+                <h1 class="title">بوابة HMAS</h1><p class="subtitle">مرحباً بك في بوابتك الرقمية</p>
+                <form id="login-form">
+                    <div class="input-group" id="tour-step-1"><input type="text" id="login-student-id" placeholder="رقم الطالب" required></div>
+                    <div class="input-group" id="tour-step-2"><input type="password" id="login-password" placeholder="كلمة المرور" required></div>
+                    <button type="submit" class="btn-3d" id="tour-step-3">تسجيل الدخول</button>
+                </form>
+                <p class="bottom-link">ليس لديك حساب؟ <a href="#" id="go-to-register">أنشئ حسابًا جديدًا</a></p>
+            </div>
+        </div>
+        <div id="register-screen" class="screen hidden">
+            <div class="form-container">
+                <h1 class="title">حساب جديد</h1><p class="subtitle">انضم إلينا الآن</p>
+                <form id="register-form">
+                    <div class="input-group"><input type="text" id="register-name" placeholder="الاسم الكامل" required></div>
+                    <div class="input-group"><input type="text" id="register-student-id" placeholder="رقم الطالب" required></div>
+                    <div class="input-group"><input type="password" id="register-password" placeholder="كلمة المرور" required></div>
+                    <button type="submit" class="btn-3d">إنشاء الحساب</button>
+                </form>
+                <p class="bottom-link">لديك حساب بالفعل؟ <a href="#" id="go-to-login">قم بتسجيل الدخول</a></p>
+            </div>
+        </div>
+        <div id="dashboard-screen" class="screen hidden">
+            <header class="dashboard-header" id="tour-step-4">
+                <div class="user-profile"><div class="profile-pic" id="user-initial"></div><div class="user-details"><h2 id="user-name"></h2><p id="user-id-display"></p></div></div>
+                <button id="logout-btn" class="settings-btn" title="تسجيل الخروج"><i class="fas fa-sign-out-alt"></i></button>
+            </header>
+            <div id="ad-container-main"></div>
+            <div class="news-ticker"><div id="news-ticker-content"></div></div>
+            <main class="main-content" id="tour-step-5"><div id="sections-grid"></div></main>
+            <footer class="dashboard-footer"><button id="settings-btn" class="settings-btn" id="tour-step-6"><i class="fas fa-cog"></i> الإعدادات</button></footer>
+        </div>
+    </div>
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-window">
+            <h3 class="modal-header">الإعدادات</h3>
+            <form id="settings-form">
+                <div class="input-group"><label>الاسم</label><input type="text" id="setting-name" required></div>
+                <div class="input-group"><label>رقم الطالب</label><input type="text" id="setting-student-id" required></div>
+                <div class="input-group"><label>كلمة المرور الجديدة (اتركها فارغة لعدم التغيير)</label><input type="password" id="setting-password"></div>
+                <div class="modal-footer"><button type="button" class="btn btn-cancel" id="cancel-settings">إلغاء</button><button type="submit" class="btn-3d">حفظ التغييرات</button></div>
+            </form>
+            <hr style="border-color: var(--glass-border); margin: 20px 0;">
+            <button id="replay-tour-btn" class="btn btn-cancel" style="width:100%;">إعادة عرض التعليمات</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/js/shepherd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const App = {
+                apiBaseUrl: 'http://localhost:3000/api',
+                token: null,
+                user: null,
+                ADMIN_ID: '781293367',
+                tour: null
+            };
+
+            const loginScreen = document.getElementById('login-screen');
+            const registerScreen = document.getElementById('register-screen');
+            const dashboardScreen = document.getElementById('dashboard-screen');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const settingsForm = document.getElementById('settings-form');
+            const userNameDisplay = document.getElementById('user-name');
+            const userIdDisplay = document.getElementById('user-id-display');
+            const userInitialDisplay = document.getElementById('user-initial');
+            const adContainer = document.getElementById('ad-container-main');
+            const newsTickerContent = document.getElementById('news-ticker-content');
+            const sectionsGrid = document.getElementById('sections-grid');
+            const goToRegisterLink = document.getElementById('go-to-register');
+            const goToLoginLink = document.getElementById('go-to-login');
+            const logoutBtn = document.getElementById('logout-btn');
+            const settingsBtn = document.getElementById('settings-btn');
+            const cancelSettingsBtn = document.getElementById('cancel-settings');
+            const replayTourBtn = document.getElementById('replay-tour-btn');
+            const settingsModal = document.getElementById('settings-modal');
+
+            const fetchAPI = async (endpoint, method = 'GET', body = null) => {
+                try {
+                    const options = { method, headers: { 'Content-Type': 'application/json' } };
+                    if (App.token) options.headers['Authorization'] = `Bearer ${App.token}`;
+                    if (body) options.body = JSON.stringify(body);
+                    const response = await fetch(`${App.apiBaseUrl}${endpoint}`, options);
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message || 'حدث خطأ ما.');
+                    return data;
+                } catch (error) {
+                    alert(`فشل: ${error.message}`);
+                    throw error;
+                }
+            };
+
+            const showScreen = (screenToShow) => {
+                [loginScreen, registerScreen, dashboardScreen].forEach(s => s.classList.add('hidden'));
+                screenToShow.classList.remove('hidden');
+            };
+
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                const student_id = document.getElementById('login-student-id').value;
+                const password = document.getElementById('login-password').value;
+
+                if (student_id === App.ADMIN_ID) {
+                    try {
+                        const data = await fetchAPI('/admin/login', 'POST', { student_id, password });
+                        if (data.success && data.token) {
+                            window.location.href = 'admin.html';
+                        }
+                    } catch (error) { alert(error.message); }
+                } else {
+                    try {
+                        const data = await fetchAPI('/student/login', 'POST', { student_id, password });
+                        if (data.success && data.token) {
+                            App.token = data.token;
+                            App.user = data.user;
+                            localStorage.setItem('hmas_student_token', data.token);
+                            localStorage.setItem('hmas_student_user', JSON.stringify(data.user));
+                            displayDashboard();
+                        }
+                    } catch (error) { alert(error.message); }
+                }
+            };
+            
+            const handleLogout = () => {
+                App.token = null; App.user = null;
+                localStorage.removeItem('hmas_student_token');
+                localStorage.removeItem('hmas_student_user');
+                showScreen(loginScreen);
+            };
+
+            const displayDashboard = async () => {
+                showScreen(dashboardScreen);
+                userNameDisplay.textContent = App.user.name;
+                userIdDisplay.textContent = `رقم الطالب: ${App.user.student_id}`;
+                userInitialDisplay.textContent = App.user.name.charAt(0).toUpperCase();
+
+                try {
+                    const [sectionsData, newsData, adsData] = await Promise.all([
+                        fetchAPI('/sections'), fetchAPI('/news'), fetchAPI('/ads')
+                    ]);
+                    sectionsGrid.innerHTML = '';
+                    if (sectionsData.sections.length > 0) {
+                        sectionsData.sections.forEach(s => {
+                            const card = document.createElement('div');
+                            card.className = 'galaxy-card';
+                            card.innerHTML = `<div class="card-content"><i class="${s.icon}"></i><h3>${s.title}</h3><p>${s.description || ' '}</p></div>${s.new_files_count > 0 ? '<span class="card-new-badge">جديد</span>' : ''}`;
+                            sectionsGrid.appendChild(card);
+                        });
+                    } else { sectionsGrid.innerHTML = '<p>لا توجد أقسام متاحة حالياً...</p>'; }
+                    newsTickerContent.textContent = newsData.news.content;
+                    adContainer.innerHTML = adsData.ads.ad_code;
+                } catch (error) { sectionsGrid.innerHTML = '<p>فشل في تحميل بيانات لوحة التحكم.</p>'; }
+                
+                if (!localStorage.getItem('hmas_dashboard_tour_completed')) {
+                    setTimeout(() => startDashboardTour(), 800);
+                }
+            };
+            
+            const initializeTour = () => {
+                const tourOptions = { useModalOverlay: true, defaultStepOptions: { classes: 'shepherd-custom-theme', scrollTo: { behavior: 'smooth', block: 'center' }, cancelIcon: { enabled: true } } };
+                App.tour = new Shepherd.Tour(tourOptions);
+                App.tour.addStep({ id: 'login-1', text: '<p>مرحباً بك في بوابة HMAS! هذا هو حقل "رقم الطالب". أدخل رقمك هنا للبدء.</p>', attachTo: { element: '#tour-step-1', on: 'bottom' }, buttons: [{ text: 'التالي', action: App.tour.next }] });
+                App.tour.addStep({ id: 'login-2', text: '<p>وهنا تقوم بإدخال "كلمة المرور" الخاصة بك. تأكد من أنها سرية وآمنة.</p>', attachTo: { element: '#tour-step-2', on: 'bottom' }, buttons: [{ text: 'السابق', action: App.tour.back, secondary: true }, { text: 'التالي', action: App.tour.next }] });
+                App.tour.addStep({ id: 'login-3', text: '<p>عندما تنتهي، اضغط على زر "تسجيل الدخول" للدخول إلى عالمك الرقمي.</p>', attachTo: { element: '#tour-step-3', on: 'bottom' }, buttons: [{ text: 'فهمت!', action: App.tour.complete }] });
+                App.tour.on('complete', () => localStorage.setItem('hmas_login_tour_completed', 'true'));
+            };
+
+            const startDashboardTour = () => { /* ... نفس كود جولة لوحة التحكم من قبل ... */ };
+
+            goToRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showScreen(registerScreen); });
+            goToLoginLink.addEventListener('click', (e) => { e.preventDefault(); showScreen(loginScreen); });
+            loginForm.addEventListener('submit', handleLogin);
+            logoutBtn.addEventListener('click', handleLogout);
+            settingsBtn.addEventListener('click', () => { /* ... نفس كود فتح الإعدادات من قبل ... */ });
+            cancelSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('visible'));
+            settingsForm.addEventListener('submit', async (e) => { /* ... نفس كود حفظ الإعدادات من قبل ... */ });
+            replayTourBtn.addEventListener('click', () => { /* ... نفس كود إعادة الجولة من قبل ... */ });
+
+            function initializeApp() {
+                const storedToken = localStorage.getItem('hmas_student_token');
+                const storedUser = localStorage.getItem('hmas_student_user');
+                if (storedToken && storedUser) {
+                    App.token = storedToken;
+                    App.user = JSON.parse(storedUser);
+                    displayDashboard();
+                } else {
+                    showScreen(loginScreen);
+                    initializeTour();
+                    if (!localStorage.getItem('hmas_login_tour_completed')) {
+                        setTimeout(() => App.tour.start(), 800);
+                    }
+                }
+            }
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
